@@ -3,7 +3,7 @@
 START=99
 
 USE_PROCD=1
-PROG=/usr/sbin/dynapoint
+PROG=/usr/sbin/dynapoint.lua
 CONFFILE=/etc/config/dynapoint
 
 start_service() {
