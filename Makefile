@@ -13,7 +13,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/dynapoint
 	SECTION:=net
 	CATEGORY:=Network
-	DEPENDS:=+libubus +libuci +pingcheck
+	DEPENDS:=+lua +libubus-lua +libuci-lua +libubox-lua +pingcheck
 	MAINTAINER:=Tobias Ilte <tobias.ilte@campus.tu-berlin.de>
 	TITLE:=Dynamic access point validator and creator
 	MENU:=1
