@@ -29,7 +29,7 @@ With this kind of dynamic access ssid creation, the expectations about the conne
 
 ### How to install DynaPoint ?
 
-TBD (LEDE packages are goning to be hosted here soon)
+TBD (LEDE packages are going to be hosted here soon)
 
 ### How to use Dynapoint?
 Example of how to use it in /etc/config/wireless:
