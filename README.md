@@ -40,7 +40,7 @@ config wifi-iface
 	option network 'lan2'
 	option mode 'ap'
 	option encryption 'none'
-	option ssid 'freifunk'
+	option ssid 'access.freifunk.net'
 	option dynapoint_internet '1'
 
 config wifi-iface
@@ -48,7 +48,6 @@ config wifi-iface
 	option network 'lan2'
 	option mode 'ap'
 	option encryption 'none'
-	option ssid 'freifunk-maintenance'
+	option ssid 'freifunk_maintenance-mode'
 	option dynapoint_internet '0'
-	option disabled '1'
 ```
