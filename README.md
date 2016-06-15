@@ -45,7 +45,7 @@ config wifi-iface
 	option mode 'ap'
 	option encryption 'none'
 	option ssid 'access.freifunk.net'
-	option dynapoint_internet '1'
+	option dynapoint '1'
 
 config wifi-iface
 	option device 'radio0'
@@ -53,5 +53,5 @@ config wifi-iface
 	option mode 'ap'
 	option encryption 'none'
 	option ssid 'freifunk_maintenance-mode'
-	option dynapoint_internet '0'
+	option dynapoint '0'
 ```
