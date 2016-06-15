@@ -35,7 +35,7 @@ function get_dynapoint(t)
     if (type(val)=="table") then
       get_dynapoint(val);
     elseif (type(val)=="string") then
-      if (pos == "dynapoint_internet") then
+      if (pos == "dynapoint") then
         if (val == "1") then
           table_name_1=t[".name"]
           print(table_name_1)
