@@ -32,8 +32,9 @@ With this kind of dynamic access ssid creation, the expectations about the conne
 1. Add `src-git dynapoint https://github.com/thuehn/dynapoint.git` to your feeds.conf
 2. Run `./scripts/feeds update dynapoint`
 3. Run `./scripts/feeds install dynapoint`
-4. Run `make menuconfig` and select dynapoint under network
-5. Run `make package/feeds/dynapoint/dynapoint/install`
+4. Run `make menuconfig` and select dynapoint under network / wireless
+5. in case you use Luci as web interface, you can add dynapoint integration by adding luci-app-dynapoint in Luci apps section
+6. Run `make package/feeds/dynapoint/dynapoint/install`
 
 ### How to use Dynapoint?
 Example of how to use it in /etc/config/wireless:
