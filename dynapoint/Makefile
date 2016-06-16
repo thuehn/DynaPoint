@@ -20,7 +20,6 @@ define Package/dynapoint
     DEPENDS:=+lua +libubus-lua +libuci-lua +libubox-lua +pingcheck
     MAINTAINER:=Tobias Ilte <tobias.ilte@campus.tu-berlin.de>
     TITLE:=Dynamic access point validator and creator
-    MENU:=1
 endef
 
 define Package/dynapoint/description
