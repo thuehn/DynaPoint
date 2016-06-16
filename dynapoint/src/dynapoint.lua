@@ -69,7 +69,6 @@ local my_method = {
         uci_cursor = uci.cursor()
         uci_cursor:set("wireless", table_name_0 , "disabled", "1")
         uci_cursor:set("wireless", table_name_1 , "disabled", "0")
-        uci_cursor:commit("wireless")
         conn:call("network", "reload", {})
 
       end, {interface = ubus.STRING }
@@ -82,7 +81,6 @@ local my_method = {
         uci_cursor = uci.cursor()
         uci_cursor:set("wireless", table_name_0, "disabled", "0")
         uci_cursor:set("wireless", table_name_1, "disabled", "1")
-        uci_cursor:commit("wireless")
         conn:call("network", "reload", {})
       end, {interface = ubus.STRING }
     }
