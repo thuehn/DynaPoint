@@ -67,8 +67,8 @@ local my_method = {
         print("Interface=" .. msg.interface)
 
         uci_cursor = uci.cursor()
-        uci_cursor:delete("wireless", table_name_1 , "disabled")
         uci_cursor:set("wireless", table_name_0 , "disabled", "1")
+        uci_cursor:set("wireless", table_name_1 , "disabled", "0")
         uci_cursor:commit("wireless")
         conn:call("network", "reload", {})
 
@@ -80,7 +80,7 @@ local my_method = {
         print("Call to function 'offline'")
         print("Interface=" .. msg.interface)
         uci_cursor = uci.cursor()
-        uci_cursor:delete("wireless", table_name_0, "disabled")
+        uci_cursor:set("wireless", table_name_0, "disabled", "0")
         uci_cursor:set("wireless", table_name_1, "disabled", "1")
         uci_cursor:commit("wireless")
         conn:call("network", "reload", {})
