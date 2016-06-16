@@ -24,7 +24,8 @@ define Package/dynapoint
 endef
 
 define Package/dynapoint/description
-Makes access point ssids dependable on certain network conditions.
+Dynapoint uses LUA scripts to allow dynamic access point creation
+and deletion depending on changes of certain network conditions.
 endef
 
 define Package/dynapoint/conffiles
