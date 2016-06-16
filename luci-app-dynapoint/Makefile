@@ -8,7 +8,6 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=luci-app-dynapoint
 PKG_VERSION:=0.1
 PKG_RELEASE:=1
-
 PKG_MAINTAINER:=Tobias Ilte <tobias.ilte@campus.tu-berlin.de>
 PKG_LICENSE:=GPL-3.0+
 PKG_LICENSE_FILES:=LICENSE
@@ -16,13 +15,13 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 
 define Package/luci-app-dynapoint
-	SECTION:=luci
-	CATEGORY:=LuCI
-	DEPENDS:=+lua +luci-base +dynapoint
-	MAINTAINER:=Tobias Ilte <tobias.ilte@campus.tu-berlin.de>
-	TITLE:=LuCI Support for DynaPoint
-	PKGARCH:=all
-	MENU:=1
+    SECTION:=LuCI
+    CATEGORY:=LuCI
+    SUBMENU:=3. Applications
+    TITLE:=LuCI Support for DynaPoint
+    DEPENDS:=+lua +luci-base +dynapoint
+    MAINTAINER:=Tobias Ilte <tobias.ilte@campus.tu-berlin.de>
+    PKGARCH:=all
 endef
 
 define Package/luci-app-dynapoint/description
