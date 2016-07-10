@@ -4,7 +4,6 @@ require "uci"
 require "ubus"
 require "uloop"
 
-
 function getConfType(conf,type)
   local curs=uci.cursor()
   local ifce={}
@@ -12,23 +11,10 @@ function getConfType(conf,type)
   return ifce
 end
 
-local pingcheck_default = getConfType("pingcheck","default")[0][".name"]
-
-
 local uci_cursor = uci.cursor()
-
-local icmp_host = uci_cursor:get("dynapoint", "internet", "icmp_host")
-uci_cursor:set("pingcheck", pingcheck_default , "host", icmp_host)
-
+local host = uci_cursor:get("dynapoint", "internet", "host")
 local interval = uci_cursor:get("dynapoint", "internet", "interval")
-uci_cursor:set("pingcheck", pingcheck_default , "interval", interval)
-
 local timeout = uci_cursor:get("dynapoint", "internet", "timeout")
-uci_cursor:set("pingcheck", pingcheck_default , "timeout", timeout)
-
-uci_cursor:commit("pingcheck")
-os.execute("sh /etc/init.d/pingcheck restart")
-
 
 function get_dynapoint(t)
   for pos,val in pairs(t) do
@@ -58,35 +44,72 @@ if not conn then
   error("Failed to connect to ubusd")
 end
 
-local my_method = {
-  dynapoint = {
-    online = {
-      function(req, msg)
-        conn:reply(req, {status="online",interface=msg.interface});
-        print("Call to function 'online'")
-        print("Interface=" .. msg.interface)
+local online = true
+local timer
 
-        uci_cursor = uci.cursor()
-        uci_cursor:set("wireless", table_name_0 , "disabled", "1")
-        uci_cursor:set("wireless", table_name_1 , "disabled", "0")
-        conn:call("network", "reload", {})
+function check_internet_connection()
+  print("checking connection")
+  
+  local t = os.execute("wget -q --max-redirect=0 --no-dns-cache --timeout="..timeout.." --spider "..host)
+  if (t == 0) then
+    -- online
+    if (online == false) then
+      print("changed to online")
+      online = true
+      uci_cursor = uci.cursor()
+      uci_cursor:set("wireless", table_name_0 , "disabled", "1")
+      uci_cursor:set("wireless", table_name_1 , "disabled", "0")
+      uci_cursor:commit("wireless")
+      conn:call("network", "reload", {})
+    end
+  else
+    --offline
+    if (online == true) then
+      print("changed to offline")
+      online = false
+      uci_cursor = uci.cursor()
+      uci_cursor:set("wireless", table_name_0, "disabled", "0")
+      uci_cursor:set("wireless", table_name_1, "disabled", "1")
+      uci_cursor:commit("wireless")
+      conn:call("network", "reload", {})
+    end
+  end
+  timer:set(interval * 1000)
+end
 
-      end, {interface = ubus.STRING }
-    },
-    offline = {
-      function(req, msg)
-        conn:reply(req, {status="offline",interface=msg.interface});
-        print("Call to function 'offline'")
-        print("Interface=" .. msg.interface)
-        uci_cursor = uci.cursor()
-        uci_cursor:set("wireless", table_name_0, "disabled", "0")
-        uci_cursor:set("wireless", table_name_1, "disabled", "1")
-        conn:call("network", "reload", {})
-      end, {interface = ubus.STRING }
-    }
-  }
-}
+timer = uloop.timer(check_internet_connection)
+timer:set(interval * 1000)
 
-conn:add(my_method)
+
+--local my_method = {
+--  dynapoint = {
+--    online = {
+--      function(req, msg)
+--        conn:reply(req, {status="online",interface=msg.interface});
+--        print("Call to function 'online'")
+--        print("Interface=" .. msg.interface)
+--
+--        uci_cursor = uci.cursor()
+--        uci_cursor:set("wireless", table_name_0 , "disabled", "1")
+--        uci_cursor:set("wireless", table_name_1 , "disabled", "0")
+--        conn:call("network", "reload", {})
+--
+--      end, {interface = ubus.STRING }
+--    },
+--    offline = {
+--      function(req, msg)
+--        conn:reply(req, {status="offline",interface=msg.interface});
+--        print("Call to function 'offline'")
+--        print("Interface=" .. msg.interface)
+--        uci_cursor = uci.cursor()
+--        uci_cursor:set("wireless", table_name_0, "disabled", "0")
+--        uci_cursor:set("wireless", table_name_1, "disabled", "1")
+--        conn:call("network", "reload", {})
+--      end, {interface = ubus.STRING }
+--    }
+--  }
+--}
+
+--conn:add(my_method)
 
 uloop.run()

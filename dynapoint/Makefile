@@ -18,7 +18,7 @@ define Package/dynapoint
     SECTION:=net
     CATEGORY:=Network
     SUBMENU:=wireless
-    DEPENDS:=+lua +libubus-lua +libuci-lua +libubox-lua +pingcheck
+    DEPENDS:=+lua +libubus-lua +libuci-lua +libubox-lua
     MAINTAINER:=Tobias Ilte <tobias.ilte@campus.tu-berlin.de>
     TITLE:=Dynamic access point validator and creator
 endef
@@ -42,12 +42,7 @@ define Package/dynapoint/install
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./src/dynapoint.init $(1)/etc/init.d/dynapoint
 	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DATA) ./src/dynapoint.config $(1)/etc/config/dynapoint
-	mkdir -p $(1)/etc/pingcheck/offline.d
-	mkdir -p $(1)/etc/pingcheck/online.d
-	$(CP) ./src/pingcheck_offline $(1)/etc/pingcheck/offline.d/dynapoint_offline
-	$(CP) ./src/pingcheck_online $(1)/etc/pingcheck/online.d/dynapoint_online
-	
+	$(INSTALL_DATA) ./src/dynapoint.config $(1)/etc/config/dynapoint	
 endef
 
 $(eval $(call BuildPackage,dynapoint))

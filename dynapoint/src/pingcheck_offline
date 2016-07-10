@@ -1,3 +1,0 @@
-#!/bin/sh
-a="{\"interface\": \"$INTERFACE\"}"                  
-ubus call dynapoint offline "$a"
