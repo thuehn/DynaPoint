@@ -13,8 +13,14 @@ end
 
 local uci_cursor = uci.cursor()
 local host = uci_cursor:get("dynapoint", "internet", "host")
+local test = uci_cursor:get("dynapoint", "internet", "test")
+print("test?")
+print(test)
+local localhostname = uci_cursor:get("system", "system", "hostname")
+local host2 = "http://www.google.com"
 local interval = uci_cursor:get("dynapoint", "internet", "interval")
 local timeout = uci_cursor:get("dynapoint", "internet", "timeout")
+local offline_delay = uci_cursor:get("dynapoint", "internet", "offline_delay")
 
 function get_dynapoint(t)
   for pos,val in pairs(t) do
@@ -46,13 +52,22 @@ end
 
 local online = true
 local timer
+local offline_counter = 0
+
+function do_internet_check(host)
+  local result = os.execute("wget -q --max-redirect=0 --no-dns-cache --timeout="..timeout.." --spider "..host)
+  if (result == 0) then
+    return true
+  else
+    return false
+  end
+end
 
 function check_internet_connection()
   print("checking connection")
-  
-  local t = os.execute("wget -q --max-redirect=0 --no-dns-cache --timeout="..timeout.." --spider "..host)
-  if (t == 0) then
+  if (do_internet_check(host) == true) then
     -- online
+    offline_counter = 0
     if (online == false) then
       print("changed to online")
       online = true
@@ -64,14 +79,17 @@ function check_internet_connection()
     end
   else
     --offline
-    if (online == true) then
-      print("changed to offline")
-      online = false
-      uci_cursor = uci.cursor()
-      uci_cursor:set("wireless", table_name_0, "disabled", "0")
-      uci_cursor:set("wireless", table_name_1, "disabled", "1")
-      uci_cursor:commit("wireless")
-      conn:call("network", "reload", {})
+    if (do_internet_check(host2) == false) then
+      offline_counter = offline_couter + 1
+      if (offline_counter == offline_delay) then
+        print("changed to offline")
+        online = false
+        uci_cursor = uci.cursor()
+        uci_cursor:set("wireless", table_name_0, "disabled", "0")
+        uci_cursor:set("wireless", table_name_1, "disabled", "1")
+        uci_cursor:commit("wireless")
+        conn:call("network", "reload", {})
+      end
     end
   end
   timer:set(interval * 1000)
