@@ -20,10 +20,10 @@ The goal of DynaPoint is that the configuration of an LEDE access interface via 
 An example scenario would look like this:
 
     1. as soon as the Freifunk ap is up and running bring up the access ssid: "maintainance-mode"
-    2. based on the pingcheck package in LEDE, we try to reach a reasonable set of host on the internet via ICMP
-    3. the dns service and its proper relosution is check 
-    4. in case of all checks been working we create the access point network with ssid "freifunk.net" and stop announcing the ssid: "freifunk-maintainance-mode"
-    5. cyclic test the conditions of internet accessibility in a regular manner and in case the reachability changes, switch off the access point network with ssid "freifunk.net" and switch on the ssid: "freifunk-maintenance-mode"
+    2. using wget, we try to reach a reasonable set of host on the internet via http
+      (2a. optional testing other condidtions) 
+    3. in case of all checks been working we create the access point network with ssid "freifunk.net" and stop announcing the ssid: "freifunk-maintainance-mode"
+    4. cyclic test the conditions of internet accessibility in a regular manner and in case the reachability changes, switch off the access point network with ssid "freifunk.net" and switch on the ssid: "freifunk-maintenance-mode"
 
 With this kind of dynamic access ssid creation, the expectations about the connectivity to a certain ssid are glued to the actual ssid itself, rather than todays approach to create a single accesspoint ssid where current network connectivity can only be tested in the second step after having connected to it. 
 
