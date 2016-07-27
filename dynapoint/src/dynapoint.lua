@@ -20,7 +20,7 @@ local localhostname = uci_cursor:get("system", "system", "hostname")
 local host2 = "http://www.google.com"
 local interval = uci_cursor:get("dynapoint", "internet", "interval")
 local timeout = uci_cursor:get("dynapoint", "internet", "timeout")
-local offline_delay = uci_cursor:get("dynapoint", "internet", "offline_delay")
+local offline_delay = tonumber(uci_cursor:get("dynapoint", "internet", "offline_delay"))
 
 function get_dynapoint(t)
   for pos,val in pairs(t) do
@@ -55,7 +55,7 @@ local timer
 local offline_counter = 0
 
 function do_internet_check(host)
-  local result = os.execute("wget -q --max-redirect=0 --no-dns-cache --timeout="..timeout.." --spider "..host)
+  local result = os.execute("wget -q --timeout="..timeout.." --spider "..host)
   if (result == 0) then
     return true
   else
@@ -80,7 +80,7 @@ function check_internet_connection()
   else
     --offline
     if (do_internet_check(host2) == false) then
-      offline_counter = offline_couter + 1
+      offline_counter = offline_counter + 1
       if (offline_counter == offline_delay) then
         print("changed to offline")
         online = false
