@@ -13,10 +13,12 @@ end
 
 local uci_cursor = uci.cursor()
 local host = uci_cursor:get("dynapoint", "internet", "host")
-local test = uci_cursor:get("dynapoint", "internet", "test")
-print("test?")
-print(test)
-local localhostname = uci_cursor:get("system", "system", "hostname")
+
+if (tonumber(uci_cursor:get("dynapoint", "internet", "add_hostname_to_ssid")) == 1 ) then
+  localhostname = uci_cursor:get("system", "system", "hostname")
+end
+
+print(localhostname)
 local host2 = "http://www.google.com"
 local interval = uci_cursor:get("dynapoint", "internet", "interval")
 local timeout = uci_cursor:get("dynapoint", "internet", "timeout")
@@ -74,6 +76,10 @@ function check_internet_connection()
       uci_cursor = uci.cursor()
       uci_cursor:set("wireless", table_name_0 , "disabled", "1")
       uci_cursor:set("wireless", table_name_1 , "disabled", "0")
+      if (localhostname) then
+        uci_cursor:set("wireless", table_name_0, "ssid", ssid)
+      end
+
       uci_cursor:commit("wireless")
       conn:call("network", "reload", {})
     end
@@ -85,6 +91,13 @@ function check_internet_connection()
         print("changed to offline")
         online = false
         uci_cursor = uci.cursor()
+        if (localhostname) then
+          ssid = uci_cursor:get("wireless", table_name_0, "ssid")
+          print(ssid)
+          ssid2 = ssid.."_"..localhostname
+          print(ssid2)
+          uci_cursor:set("wireless", table_name_0, "ssid", ssid2)
+        end
         uci_cursor:set("wireless", table_name_0, "disabled", "0")
         uci_cursor:set("wireless", table_name_1, "disabled", "1")
         uci_cursor:commit("wireless")
