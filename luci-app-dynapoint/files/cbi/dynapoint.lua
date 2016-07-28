@@ -27,9 +27,10 @@ ssid = aps:option(DummyValue, "ssid", "SSID")
 
 action = aps:option(ListValue, "dynapoint", "action")
 action.widget="select"
-action:value("1","use if online")
-action:value("0","use if offline")
-action:value("2","don't use by dynapoint")
+action:value("1","online")
+action:value("0","offline")
+action:value("","not used by dynapoint")
+action.default = ""
 
 s = m:section(NamedSection, "internet", "rule", "Internet", "Internet connectivity")
 
@@ -50,7 +51,7 @@ add_hostname_to_ssid = s:option(Flag, "add_hostname_to_ssid", "Append hostname t
 --add_hostname_to_ssid.disabled = "0"
 add_hostname_to_ssid.rmempty = false
 
-offline_treshold = s:option(Value, "offline_treshold", "Offline treshold", "After how many times of checking, the connection is considered offline")
+offline_treshold = s:option(Value, "offline_threshold", "Offline threshold", "After how many times of checking, the connection is considered offline")
 offline_treshold.datatype = "uinteger"
 offline_treshold.default = "1"
 

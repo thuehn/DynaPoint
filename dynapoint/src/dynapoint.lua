@@ -22,7 +22,7 @@ print(localhostname)
 local host2 = "http://www.google.com"
 local interval = uci_cursor:get("dynapoint", "internet", "interval")
 local timeout = uci_cursor:get("dynapoint", "internet", "timeout")
-local offline_treshold = tonumber(uci_cursor:get("dynapoint", "internet", "offline_treshold"))
+local offline_threshold = tonumber(uci_cursor:get("dynapoint", "internet", "offline_threshold"))
 
 function get_dynapoint(t)
   for pos,val in pairs(t) do
@@ -41,6 +41,42 @@ function get_dynapoint(t)
     end
   end
 end
+
+function print_r ( t )
+  local print_r_cache={}
+  local function sub_print_r(t,indent)
+    if (print_r_cache[tostring(t)]) then
+      print(indent.."*"..tostring(t))
+    else
+      print_r_cache[tostring(t)]=true
+      if (type(t)=="table") then
+        for pos,val in pairs(t) do
+          if (type(val)=="table") then
+            print(indent.."["..pos.."] => "..tostring(t).." {")
+            sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
+            print(indent..string.rep(" ",string.len(pos)+6).."}")
+          elseif (type(val)=="string") then
+            print(indent.."["..pos..'] => "'..val..'"')
+          else
+            print(indent.."["..pos.."] => "..tostring(val))
+          end
+        end
+      else
+        print(indent..tostring(t))
+      end
+    end
+  end
+  if (type(t)=="table") then
+    print(tostring(t).." {")
+    sub_print_r(t,"  ")
+    print("}")
+  else
+    sub_print_r(t,"  ")
+  end
+  print()
+end
+
+print_r(getConfType("wireless", "wifi-iface"))
 
 
 get_dynapoint(getConfType("wireless","wifi-iface"))
@@ -87,7 +123,7 @@ function check_internet_connection()
     --offline
     if (do_internet_check(host2) == false) then
       offline_counter = offline_counter + 1
-      if (offline_counter == offline_treshold) then
+      if (offline_counter == offline_threshold) then
         print("changed to offline")
         online = false
         uci_cursor = uci.cursor()
