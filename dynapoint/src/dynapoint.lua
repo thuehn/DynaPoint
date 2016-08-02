@@ -116,7 +116,7 @@ function check_internet_connection()
         uci_cursor:set("wireless", table_name_0, "ssid", ssid)
       end
 
-      uci_cursor:commit("wireless")
+      uci_cursor:save("wireless")
       conn:call("network", "reload", {})
     end
   else
@@ -136,7 +136,7 @@ function check_internet_connection()
         end
         uci_cursor:set("wireless", table_name_0, "disabled", "0")
         uci_cursor:set("wireless", table_name_1, "disabled", "1")
-        uci_cursor:commit("wireless")
+        uci_cursor:save("wireless")
         conn:call("network", "reload", {})
       end
     end
