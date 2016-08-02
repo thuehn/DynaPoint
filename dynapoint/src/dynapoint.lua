@@ -14,15 +14,15 @@ end
 local uci_cursor = uci.cursor()
 local host = uci_cursor:get("dynapoint", "internet", "host")
 
-if (tonumber(uci_cursor:get("dynapoint", "internet", "add_hostname_to_ssid")) == 1 ) then
-  localhostname = uci_cursor:get("system", "system", "hostname")
-end
 
-print(localhostname)
+
 local host2 = "http://www.google.com"
 local interval = uci_cursor:get("dynapoint", "internet", "interval")
 local timeout = uci_cursor:get("dynapoint", "internet", "timeout")
 local offline_threshold = tonumber(uci_cursor:get("dynapoint", "internet", "offline_threshold"))
+local hosts = uci_cursor:get("dynapoint", "internet", "hosts")
+local numhosts = #hosts
+print(numhosts)
 
 function get_dynapoint(t)
   for pos,val in pairs(t) do
@@ -75,11 +75,23 @@ function print_r ( t )
   end
   print()
 end
+print("hosts:")
+print_r(hosts)
+print("/hosts")
+--print_r(getConfType("wireless", "wifi-iface"))
 
-print_r(getConfType("wireless", "wifi-iface"))
-
+print(hosts[1])
+print(table.getn(hosts))
+print(#hosts)
 
 get_dynapoint(getConfType("wireless","wifi-iface"))
+
+if (tonumber(uci_cursor:get("dynapoint", "internet", "add_hostname_to_ssid")) == 1 ) then
+  localhostname = uci_cursor:get("system", "system", "hostname")
+  ssid = uci_cursor:get("wireless", table_name_0, "ssid")
+  ssid2 = ssid.."_"..localhostname
+end
+
 
 uloop.init()
 
@@ -93,7 +105,7 @@ local timer
 local offline_counter = 0
 
 function do_internet_check(host)
-  local result = os.execute("wget -q --timeout="..timeout.." --spider "..host)
+  local result = os.execute("wget -q --max-redirect 0 --timeout="..timeout.." --spider "..host)
   if (result == 0) then
     return true
   else
@@ -101,43 +113,53 @@ function do_internet_check(host)
   end
 end
 
+function change_wireless_config(switch_to_offline)
+  if (switch_to_offline == 1) then
+    if (localhostname) then
+      uci_cursor:set("wireless", table_name_0, "ssid", ssid2)
+    end
+    uci_cursor:set("wireless", table_name_0, "disabled", "0")
+    uci_cursor:set("wireless", table_name_1, "disabled", "1")
+  else
+    uci_cursor:set("wireless", table_name_0 , "disabled", "1")
+    uci_cursor:set("wireless", table_name_1 , "disabled", "0")
+    if (localhostname) then
+      uci_cursor:set("wireless", table_name_0, "ssid", ssid)
+    end
+  end
+  uci_cursor:save("wireless")
+  conn:call("network", "reload", {})
+end
+
+
+local hostindex = 1
+
 function check_internet_connection()
-  print("checking connection")
-  if (do_internet_check(host) == true) then
+  print("checking "..hosts[hostindex].."...")
+  if (do_internet_check(hosts[hostindex]) == true) then
     -- online
+    print("...seems to be online")
     offline_counter = 0
     if (online == false) then
-      print("changed to online")
+      print("changed state to online")
       online = true
-      uci_cursor = uci.cursor()
-      uci_cursor:set("wireless", table_name_0 , "disabled", "1")
-      uci_cursor:set("wireless", table_name_1 , "disabled", "0")
-      if (localhostname) then
-        uci_cursor:set("wireless", table_name_0, "ssid", ssid)
-      end
-
-      uci_cursor:save("wireless")
-      conn:call("network", "reload", {})
+      change_wireless_config(0)
     end
   else
     --offline
-    if (do_internet_check(host2) == false) then
-      offline_counter = offline_counter + 1
-      if (offline_counter == offline_threshold) then
-        print("changed to offline")
-        online = false
-        uci_cursor = uci.cursor()
-        if (localhostname) then
-          ssid = uci_cursor:get("wireless", table_name_0, "ssid")
-          print(ssid)
-          ssid2 = ssid.."_"..localhostname
-          print(ssid2)
-          uci_cursor:set("wireless", table_name_0, "ssid", ssid2)
+    print("...seems to be offline")
+    hostindex = hostindex + 1
+    if (hostindex > numhosts) then
+      hostindex = 1
+      -- and activate offline-mode
+      print("all hosts offline")
+      if (online == true) then
+        offline_counter = offline_counter + 1
+        if (offline_counter == offline_threshold) then
+          print("changed state to offline")
+          online = false
+          change_wireless_config(1)
         end
-        uci_cursor:set("wireless", table_name_0, "disabled", "0")
-        uci_cursor:set("wireless", table_name_1, "disabled", "1")
-        uci_cursor:save("wireless")
-        conn:call("network", "reload", {})
       end
     end
   end

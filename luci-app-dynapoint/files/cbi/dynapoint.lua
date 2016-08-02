@@ -34,9 +34,8 @@ action.default = ""
 
 s = m:section(NamedSection, "internet", "rule", "Internet", "Internet connectivity")
 
-pinghost = s:option(Value, "host", "Host address", "address to check the availability")
-pinghost.datatype = "string"
-pinghost.default = "http://www.example.com"
+hosts = s:option(DynamicList, "hosts", "Target host addresses", "Addresses for checking the availability")
+hosts.datatype = "string"
 
 interval = s:option(Value, "interval", "Interval", "How often to check Internet connection in seconds")
 interval.datatype = "uinteger"
