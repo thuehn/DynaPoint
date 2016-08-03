@@ -25,10 +25,10 @@ aps.template  = "cbi/tblsection"
 ssid = aps:option(DummyValue, "ssid", "SSID")
 
 
-action = aps:option(ListValue, "dynapoint", "action")
+action = aps:option(ListValue, "dynapoint_rule", "action")
 action.widget="select"
-action:value("1","online")
-action:value("0","offline")
+action:value("internet","online")
+action:value("!internet","offline")
 action:value("","not used by dynapoint")
 action.default = ""
 

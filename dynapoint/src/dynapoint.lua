@@ -12,11 +12,7 @@ function getConfType(conf,type)
 end
 
 local uci_cursor = uci.cursor()
-local host = uci_cursor:get("dynapoint", "internet", "host")
 
-
-
-local host2 = "http://www.google.com"
 local interval = uci_cursor:get("dynapoint", "internet", "interval")
 local timeout = uci_cursor:get("dynapoint", "internet", "timeout")
 local offline_threshold = tonumber(uci_cursor:get("dynapoint", "internet", "offline_threshold"))
@@ -28,20 +24,20 @@ end
 
 
 local numhosts = #hosts
-print(numhosts)
+--print(numhosts)
 
 function get_dynapoint(t)
   for pos,val in pairs(t) do
     if (type(val)=="table") then
       get_dynapoint(val);
     elseif (type(val)=="string") then
-      if (pos == "dynapoint") then
-        if (val == "1") then
+      if (pos == "dynapoint_rule") then
+        if (val == "internet") then
           table_name_1=t[".name"]
-          print(table_name_1)
-        elseif (val == "0") then
+          --print(table_name_1)
+        elseif (val == "!internet") then
           table_name_0=t[".name"]
-          print(table_name_0)
+          --print(table_name_0)
         end
       end
     end
@@ -81,14 +77,11 @@ function print_r ( t )
   end
   print()
 end
-print("hosts:")
-print_r(hosts)
-print("/hosts")
+
 --print_r(getConfType("wireless", "wifi-iface"))
 
-print(hosts[1])
-print(table.getn(hosts))
-print(#hosts)
+--print(table.getn(hosts))
+--print(#hosts)
 
 get_dynapoint(getConfType("wireless","wifi-iface"))
 
