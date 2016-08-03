@@ -21,6 +21,12 @@ local interval = uci_cursor:get("dynapoint", "internet", "interval")
 local timeout = uci_cursor:get("dynapoint", "internet", "timeout")
 local offline_threshold = tonumber(uci_cursor:get("dynapoint", "internet", "offline_threshold"))
 local hosts = uci_cursor:get("dynapoint", "internet", "hosts")
+local curl = tonumber(uci_cursor:get("dynapoint", "internet", "use_curl"))
+if (curl == 1) then
+  curl_interface = uci_cursor:get("dynapoint", "internet", "curl_interface")
+end
+
+
 local numhosts = #hosts
 print(numhosts)
 
@@ -105,7 +111,15 @@ local timer
 local offline_counter = 0
 
 function do_internet_check(host)
-  local result = os.execute("wget -q --timeout="..timeout.." --spider "..host)
+  if (curl == 1 ) then
+    if (curl_interface) then
+      result = os.execute("curl -s -m "..timeout.." --max-redirs 0 --interface "..curl_interface.." --head "..host.." > /dev/null")
+    else
+      result = os.execute("curl -s -m "..timeout.." --max-redirs 0 --head "..host.." > /dev/null")
+    end
+  else
+    result = os.execute("wget -q --timeout="..timeout.." --spider "..host)
+  end
   if (result == 0) then
     return true
   else

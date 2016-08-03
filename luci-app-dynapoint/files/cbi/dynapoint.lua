@@ -41,18 +41,25 @@ interval = s:option(Value, "interval", "Interval", "How often to check Internet 
 interval.datatype = "uinteger"
 interval.default = "30"
 
-timeout = s:option(Value, "timeout", "Timeout", "Timeout when trying to check Internet availability of host")
+timeout = s:option(Value, "timeout", "Timeout", "Timeout in seconds when trying to check Internet availability of host")
 timeout.datatype = "uinteger"
 timeout.default = "5"
+
+offline_treshold = s:option(Value, "offline_threshold", "Offline threshold", "After how many times of checking, the connection is considered offline")
+offline_treshold.datatype = "uinteger"
+offline_treshold.default = "1"
 
 add_hostname_to_ssid = s:option(Flag, "add_hostname_to_ssid", "Append hostname to ssid", "Append the router's hostname to the SSID when connectivity check fails")
 --add_hostname_to_ssid.enabled = "1"
 --add_hostname_to_ssid.disabled = "0"
 add_hostname_to_ssid.rmempty = false
 
-offline_treshold = s:option(Value, "offline_threshold", "Offline threshold", "After how many times of checking, the connection is considered offline")
-offline_treshold.datatype = "uinteger"
-offline_treshold.default = "1"
+use_curl = s:option(Flag, "use_curl", "Use curl", "Use curl instead of wget for testing the connectivity. ATTENTION: You need to have curl installed before using this.")
+use_curl.rmempty = false
 
+curl_interface = s:option(Value, "curl_interface", "Used interface", "Which interface should curl use. (Use ifconfig to find out)")
+curl_interface.datatype = "string"
+curl_interface:depends("use_curl","1")
+curl_interface.placeholder = "eth0"
 
 return m,m1
