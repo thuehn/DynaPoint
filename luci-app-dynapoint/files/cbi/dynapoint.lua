@@ -13,9 +13,7 @@ end
 m = Map("dynapoint", "DynaPoint", "Dynamic Access Point Validator and Creator")
 m:chain("wireless")
 
-
 m1 = Map("wireless") 
-
 
 aps = m1:section(TypedSection, "wifi-iface", "Access Points")
 aps.addremove = false
@@ -23,7 +21,6 @@ aps.anonymous = true
 aps.template  = "cbi/tblsection"
 
 ssid = aps:option(DummyValue, "ssid", "SSID")
-
 
 action = aps:option(ListValue, "dynapoint_rule", "action")
 action.widget="select"

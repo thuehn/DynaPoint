@@ -12,6 +12,14 @@ function getConfType(conf,type)
 end
 
 local uci_cursor = uci.cursor()
+uci_cursor:revert("wireless")
+
+conn = ubus.connect()
+if not conn then
+  error("Failed to connect to ubusd")
+end
+conn:call("network", "reload", {})
+
 
 local interval = uci_cursor:get("dynapoint", "internet", "interval")
 local timeout = uci_cursor:get("dynapoint", "internet", "timeout")
@@ -92,16 +100,11 @@ if (tonumber(uci_cursor:get("dynapoint", "internet", "add_hostname_to_ssid")) ==
 end
 
 
-uloop.init()
-
-conn = ubus.connect()
-if not conn then
-  error("Failed to connect to ubusd")
-end
-
 local online = true
 local timer
 local offline_counter = 0
+
+uloop.init()
 
 function do_internet_check(host)
   if (curl == 1 ) then
