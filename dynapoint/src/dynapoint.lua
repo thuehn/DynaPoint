@@ -105,7 +105,7 @@ local timer
 local offline_counter = 0
 
 function do_internet_check(host)
-  local result = os.execute("wget -q --max-redirect 0 --timeout="..timeout.." --spider "..host)
+  local result = os.execute("wget -q --timeout="..timeout.." --spider "..host)
   if (result == 0) then
     return true
   else
