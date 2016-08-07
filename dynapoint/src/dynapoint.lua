@@ -3,6 +3,9 @@
 require "uci"
 require "ubus"
 require "uloop"
+log = require "nixio"
+
+log.openlog("DynaPoint" , "ndelay", "cons", "nowait");
 
 function getConfType(conf,type)
   local curs=uci.cursor()
@@ -108,7 +111,6 @@ end
 
 local timer
 local offline_counter = 0
-
 uloop.init()
 
 function do_internet_check(host)
@@ -130,18 +132,25 @@ end
 
 function change_wireless_config(switch_to_offline)
   if (switch_to_offline == 1) then
+    log.syslog("info","Switched to OFFLINE")
     if (localhostname) then
       uci_cursor:set("wireless", table_name_0, "ssid", ssid2)
+      log.syslog("info","Bring up new AP "..ssid2)
+    else
+      log.syslog("info","Bring up new AP "..ssid)
     end
     uci_cursor:set("wireless", table_name_0, "disabled", "0")
     uci_cursor:set("wireless", table_name_1, "disabled", "1")
-  else
+  else    
     uci_cursor:set("wireless", table_name_0 , "disabled", "1")
     uci_cursor:set("wireless", table_name_1 , "disabled", "0")
     if (localhostname) then
       uci_cursor:set("wireless", table_name_0, "ssid", ssid)
     end
+    log.syslog("info","Switched to ONLINE")
+    log.syslog("info","Bring up new AP "..uci_cursor:get("wireless", table_name_1 , "ssid"))
   end
+
   uci_cursor:save("wireless")
   conn:call("network", "reload", {})
 end

@@ -18,7 +18,7 @@ define Package/dynapoint
     SECTION:=net
     CATEGORY:=Network
     SUBMENU:=wireless
-    DEPENDS:=+lua +libubus-lua +libuci-lua +libubox-lua
+    DEPENDS:=+lua +libubus-lua +libuci-lua +libubox-lua +luci-lib-nixio
     MAINTAINER:=Tobias Ilte <tobias.ilte@campus.tu-berlin.de>
     TITLE:=Dynamic access point validator and creator
 endef
