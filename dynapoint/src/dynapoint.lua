@@ -100,7 +100,12 @@ if (tonumber(uci_cursor:get("dynapoint", "internet", "add_hostname_to_ssid")) ==
 end
 
 
+
 local online = true
+if (tonumber(uci_cursor:get("wireless", table_name_1, "disabled")) == 1) then
+  online = false
+end
+
 local timer
 local offline_counter = 0
 
