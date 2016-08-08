@@ -20,7 +20,7 @@ The goal of DynaPoint is that the configuration of an LEDE access interface via 
 An example scenario would look like this:
 
     1. as soon as the Freifunk ap is up and running bring up the access ssid: "maintainance-mode"
-    2. using wget, we try to reach a reasonable set of host on the internet via http
+    2. using wget (or optional curl), we try to reach a reasonable set of hosts on the internet via http
       (2a. optional testing other condidtions) 
     3. in case of all checks been working we create the access point network with ssid "freifunk.net" and stop announcing the ssid: "freifunk-maintainance-mode"
     4. cyclic test the conditions of internet accessibility in a regular manner and in case the reachability changes, switch off the access point network with ssid "freifunk.net" and switch on the ssid: "freifunk-maintenance-mode"
@@ -46,7 +46,7 @@ config wifi-iface
 	option mode 'ap'
 	option encryption 'none'
 	option ssid 'access.freifunk.net'
-	option dynapoint '1'
+	option dynapoint_rule 'internet'
 
 config wifi-iface
 	option device 'radio0'
@@ -54,5 +54,5 @@ config wifi-iface
 	option mode 'ap'
 	option encryption 'none'
 	option ssid 'freifunk_maintenance-mode'
-	option dynapoint '0'
+	option dynapoint_rule '!internet'
 ```
