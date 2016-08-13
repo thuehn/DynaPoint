@@ -5,96 +5,59 @@ require "ubus"
 require "uloop"
 log = require "nixio"
 
-log.openlog("DynaPoint" , "ndelay", "cons", "nowait");
+--open sys-logging
+log.openlog("DynaPoint", "ndelay", "cons", "nowait");
 
+local uci_cursor = uci.cursor()
+
+-- revert all non-persistent wireless related uci-changes
+uci_cursor:revert("wireless")
+
+
+-- get all config sections with the given type
 function getConfType(conf,type)
-  local curs=uci.cursor()
   local ifce={}
-  curs:foreach(conf,type,function(s) ifce[s[".index"]]=s end)
+  uci_cursor:foreach(conf,type,function(s) ifce[s[".index"]]=s end)
   return ifce
 end
 
-local uci_cursor = uci.cursor()
-uci_cursor:revert("wireless")
 
-conn = ubus.connect()
-if not conn then
+ubus = ubus.connect()
+if not ubus then
   error("Failed to connect to ubusd")
 end
-conn:call("network", "reload", {})
-
+ubus:call("network", "reload", {})
 
 local interval = uci_cursor:get("dynapoint", "internet", "interval")
 local timeout = uci_cursor:get("dynapoint", "internet", "timeout")
 local offline_threshold = tonumber(uci_cursor:get("dynapoint", "internet", "offline_threshold"))
 local hosts = uci_cursor:get("dynapoint", "internet", "hosts")
+local numhosts = #hosts
 local curl = tonumber(uci_cursor:get("dynapoint", "internet", "use_curl"))
 if (curl == 1) then
   curl_interface = uci_cursor:get("dynapoint", "internet", "curl_interface")
 end
 
 
-local numhosts = #hosts
---print(numhosts)
-
-function get_dynapoint(t)
+function get_dynapoint_sections(t)
   for pos,val in pairs(t) do
     if (type(val)=="table") then
-      get_dynapoint(val);
+      get_dynapoint_sections(val);
     elseif (type(val)=="string") then
       if (pos == "dynapoint_rule") then
         if (val == "internet") then
           table_name_1=t[".name"]
-          --print(table_name_1)
         elseif (val == "!internet") then
           table_name_0=t[".name"]
-          --print(table_name_0)
         end
       end
     end
   end
 end
-
-function print_r ( t )
-  local print_r_cache={}
-  local function sub_print_r(t,indent)
-    if (print_r_cache[tostring(t)]) then
-      print(indent.."*"..tostring(t))
-    else
-      print_r_cache[tostring(t)]=true
-      if (type(t)=="table") then
-        for pos,val in pairs(t) do
-          if (type(val)=="table") then
-            print(indent.."["..pos.."] => "..tostring(t).." {")
-            sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
-            print(indent..string.rep(" ",string.len(pos)+6).."}")
-          elseif (type(val)=="string") then
-            print(indent.."["..pos..'] => "'..val..'"')
-          else
-            print(indent.."["..pos.."] => "..tostring(val))
-          end
-        end
-      else
-        print(indent..tostring(t))
-      end
-    end
-  end
-  if (type(t)=="table") then
-    print(tostring(t).." {")
-    sub_print_r(t,"  ")
-    print("}")
-  else
-    sub_print_r(t,"  ")
-  end
-  print()
-end
-
---print_r(getConfType("wireless", "wifi-iface"))
 
 --print(table.getn(hosts))
---print(#hosts)
 
-get_dynapoint(getConfType("wireless","wifi-iface"))
+get_dynapoint_sections(getConfType("wireless","wifi-iface"))
 
 if (tonumber(uci_cursor:get("dynapoint", "internet", "add_hostname_to_ssid")) == 1 ) then
   localhostname = uci_cursor:get("system", "system", "hostname")
@@ -141,7 +104,7 @@ function change_wireless_config(switch_to_offline)
     end
     uci_cursor:set("wireless", table_name_0, "disabled", "0")
     uci_cursor:set("wireless", table_name_1, "disabled", "1")
-  else    
+  else
     uci_cursor:set("wireless", table_name_0 , "disabled", "1")
     uci_cursor:set("wireless", table_name_1 , "disabled", "0")
     if (localhostname) then
@@ -152,7 +115,7 @@ function change_wireless_config(switch_to_offline)
   end
 
   uci_cursor:save("wireless")
-  conn:call("network", "reload", {})
+  ubus:call("network", "reload", {})
 end
 
 
@@ -192,37 +155,5 @@ end
 
 timer = uloop.timer(check_internet_connection)
 timer:set(interval * 1000)
-
-
---local my_method = {
---  dynapoint = {
---    online = {
---      function(req, msg)
---        conn:reply(req, {status="online",interface=msg.interface});
---        print("Call to function 'online'")
---        print("Interface=" .. msg.interface)
---
---        uci_cursor = uci.cursor()
---        uci_cursor:set("wireless", table_name_0 , "disabled", "1")
---        uci_cursor:set("wireless", table_name_1 , "disabled", "0")
---        conn:call("network", "reload", {})
---
---      end, {interface = ubus.STRING }
---    },
---    offline = {
---      function(req, msg)
---        conn:reply(req, {status="offline",interface=msg.interface});
---        print("Call to function 'offline'")
---        print("Interface=" .. msg.interface)
---        uci_cursor = uci.cursor()
---        uci_cursor:set("wireless", table_name_0, "disabled", "0")
---        uci_cursor:set("wireless", table_name_1, "disabled", "1")
---        conn:call("network", "reload", {})
---      end, {interface = ubus.STRING }
---    }
---  }
---}
-
---conn:add(my_method)
 
 uloop.run()
