@@ -1,0 +1,76 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "Access Points"
+msgstr ""
+
+msgid "Addresses for checking the availability"
+msgstr ""
+
+msgid "After how many times of checking, the connection is considered offline"
+msgstr ""
+
+msgid "Append hostname to ssid"
+msgstr ""
+
+msgid "Append the router's hostname to the SSID when connectivity check fails"
+msgstr ""
+
+msgid "DynaPoint"
+msgstr ""
+
+msgid "Dynamic Access Point Validator and Creator"
+msgstr ""
+
+msgid "How often to check Internet connection in seconds"
+msgstr ""
+
+msgid "Internet"
+msgstr ""
+
+msgid "Internet connectivity"
+msgstr ""
+
+msgid "Interval"
+msgstr ""
+
+msgid "Offline threshold"
+msgstr ""
+
+msgid "SSID"
+msgstr ""
+
+msgid "Target host addresses"
+msgstr ""
+
+msgid "Timeout"
+msgstr ""
+
+msgid "Timeout in seconds when trying to check Internet availability of host"
+msgstr ""
+
+msgid "Use curl"
+msgstr ""
+
+msgid ""
+"Use curl instead of wget for testing the connectivity. ATTENTION: You need "
+"to have curl installed before using this."
+msgstr ""
+
+msgid "Used interface"
+msgstr ""
+
+msgid "Which interface should curl use. (Use ifconfig to find out)"
+msgstr ""
+
+msgid "action"
+msgstr ""
+
+msgid "not used by dynapoint"
+msgstr ""
+
+msgid "offline"
+msgstr ""
+
+msgid "online"
+msgstr ""
