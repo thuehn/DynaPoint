@@ -33,11 +33,11 @@ endef
 
 define Package/luci-app-dynapoint/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_BIN) ./files/uci-defaults/40_luci-dynapoint $(1)/etc/uci-defaults/40_luci-dynapoint
+	$(INSTALL_BIN) ./luasrc/uci-defaults/40_luci-dynapoint $(1)/etc/uci-defaults/40_luci-dynapoint
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/dynapoint
-	$(INSTALL_DATA) ./files/cbi/dynapoint.lua $(1)/usr/lib/lua/luci/model/cbi/dynapoint/dynapoint.lua
+	$(INSTALL_DATA) ./luasrc/model/cbi/dynapoint.lua $(1)/usr/lib/lua/luci/model/cbi/dynapoint/dynapoint.lua
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
-	$(INSTALL_DATA) ./files/controller/dynapoint.lua $(1)/usr/lib/lua/luci/controller/dynapoint.lua	
+	$(INSTALL_DATA) ./luasrc/controller/dynapoint.lua $(1)/usr/lib/lua/luci/controller/dynapoint.lua	
 endef
 
 $(eval $(call BuildPackage,luci-app-dynapoint))
