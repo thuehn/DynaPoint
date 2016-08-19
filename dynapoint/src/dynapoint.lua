@@ -38,6 +38,40 @@ if (curl == 1) then
   curl_interface = uci_cursor:get("dynapoint", "internet", "curl_interface")
 end
 
+function print_r ( t )
+  local print_r_cache={}
+  local function sub_print_r(t,indent)
+    if (print_r_cache[tostring(t)]) then
+      print(indent.."*"..tostring(t))
+    else
+      print_r_cache[tostring(t)]=true
+      if (type(t)=="table") then
+        for pos,val in pairs(t) do
+          if (type(val)=="table") then
+            print(indent.."["..pos.."] => "..tostring(t).." {")
+            sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
+            print(indent..string.rep(" ",string.len(pos)+6).."}")
+          elseif (type(val)=="string") then
+            print(indent.."["..pos..'] => "'..val..'"')
+          else
+            print(indent.."["..pos.."] => "..tostring(val))
+          end
+        end
+      else
+        print(indent..tostring(t))
+      end
+    end
+  end
+  if (type(t)=="table") then
+    print(tostring(t).." {")
+    sub_print_r(t,"  ")
+    print("}")
+  else
+    sub_print_r(t,"  ")
+  end
+  print()
+end
+
 
 function get_dynapoint_sections(t)
   for pos,val in pairs(t) do
@@ -55,6 +89,7 @@ function get_dynapoint_sections(t)
   end
 end
 
+print_r(getConfType("wireless","wifi-iface"))
 --print(table.getn(hosts))
 
 get_dynapoint_sections(getConfType("wireless","wifi-iface"))
@@ -62,6 +97,7 @@ get_dynapoint_sections(getConfType("wireless","wifi-iface"))
 if (tonumber(uci_cursor:get("dynapoint", "internet", "add_hostname_to_ssid")) == 1 ) then
   localhostname = uci_cursor:get("system", "system", "hostname")
   ssid = uci_cursor:get("wireless", table_name_0, "ssid")
+  print(ssid)
   ssid2 = ssid.."_"..localhostname
 end
 
@@ -100,7 +136,7 @@ function change_wireless_config(switch_to_offline)
       uci_cursor:set("wireless", table_name_0, "ssid", ssid2)
       log.syslog("info","Bring up new AP "..ssid2)
     else
-      log.syslog("info","Bring up new AP "..ssid)
+      log.syslog("info","Bring up new AP "..uci_cursor:get("wireless", table_name_0 , "ssid"))
     end
     uci_cursor:set("wireless", table_name_0, "disabled", "0")
     uci_cursor:set("wireless", table_name_1, "disabled", "1")

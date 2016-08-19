@@ -1,34 +1,49 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "PO-Revision-Date: 2016-08-14 15:51+0200\n"
 "Language-Team: German\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Access Points"
 msgstr ""
 
+msgid "Activate if"
+msgstr "Aktivieren wenn"
+
 msgid "Addresses for checking the availability"
 msgstr "Adressen um die Internetverfügbarkeit zu überprüfen"
 
 msgid "After how many times of checking, the connection is considered offline"
-msgstr "Anzahl der Zyklen, nach denen die Verbindung als offline angesehen wird"
+msgstr ""
+"Anzahl der Zyklen, nach denen die Verbindung als offline angesehen wird"
 
 msgid "Append hostname to ssid"
 msgstr "Anfügen des hostname zur SSID"
 
 msgid "Append the router's hostname to the SSID when connectivity check fails"
-msgstr "Fügt den hostname des routers zur SSID an, wenn der Verbindungsüberprüfung fehl schlägt"
+msgstr ""
+"Fügt den hostname des routers zur SSID an, wenn der Verbindungsüberprüfung "
+"fehl schlägt"
+
+msgid "Curl is currently not installed."
+msgstr "Curl ist momentan nicht installiert."
+
+msgid "Disabled"
+msgstr "Deaktiviert"
 
 msgid "DynaPoint"
 msgstr ""
 
 msgid "Dynamic Access Point Validator and Creator"
 msgstr ""
+
+msgid "Enabled"
+msgstr "Aktiviert"
 
 msgid "How often to check Internet connection in seconds"
 msgstr "Wie oft die Internetverbindung überprüft wird (in Sekunden)"
@@ -42,43 +57,50 @@ msgstr "Internetverbindung"
 msgid "Interval"
 msgstr ""
 
+msgid "Not used by DynaPoint"
+msgstr "Nicht von dynapoint benutzt"
+
+msgid "Offline"
+msgstr "Offline"
+
 msgid "Offline threshold"
 msgstr "Offline-Schwelle"
 
+msgid "Online"
+msgstr "Online"
+
 msgid "SSID"
+msgstr ""
+
+msgid "Status"
 msgstr ""
 
 msgid "Target host addresses"
 msgstr "Zieladressen"
 
 msgid "Timeout"
-msgstr ""
+msgstr "Zeitüberschreitung"
 
 msgid "Timeout in seconds when trying to check Internet availability of host"
-msgstr ""
+msgstr "Zeitüberschreitung in Sekunden wenn versucht wird die Verfügbarkeit zu überprüfen"
 
 msgid "Use curl"
 msgstr "Curl benutzen"
 
-msgid ""
-"Use curl instead of wget for testing the connectivity. ATTENTION: You need "
-"to have curl installed before using this."
-msgstr "Curl anstatt wget benutzen, um die Internetverbindung zu überprüfen. ACHTUNG: Curl muss installiert sein, bevor diese Option genutzt werden kann."
+msgid "Use curl instead of wget"
+msgstr "Curl anstatt wget benutzen"
+
+msgid "Use curl instead of wget for testing the connectivity."
+msgstr ""
+"Curl anstatt wget benutzen, um die Internetverbindung zu überprüfen."
 
 msgid "Used interface"
 msgstr "Benutztes interface"
 
 msgid "Which interface should curl use. (Use ifconfig to find out)"
-msgstr "Welches Interface von curl benutzt werden soll. (ifconfig benutzen, um das herauszufinden"
+msgstr ""
+"Welches Interface von curl benutzt werden soll. (ifconfig benutzen, um das "
+"herauszufinden"
 
-msgid "action"
-msgstr "Aktion"
-
-msgid "not used by dynapoint"
-msgstr "Nicht von dynapoint benutzt"
-
-msgid "offline"
-msgstr "Offline"
-
-msgid "online"
-msgstr "Online"
+#~ msgid "action"
+#~ msgstr "Aktion"

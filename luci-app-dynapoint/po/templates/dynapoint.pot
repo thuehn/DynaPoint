@@ -4,6 +4,9 @@ msgstr "Content-Type: text/plain; charset=UTF-8"
 msgid "Access Points"
 msgstr ""
 
+msgid "Activate if"
+msgstr ""
+
 msgid "Addresses for checking the availability"
 msgstr ""
 
@@ -16,10 +19,19 @@ msgstr ""
 msgid "Append the router's hostname to the SSID when connectivity check fails"
 msgstr ""
 
+msgid "Curl is currently not installed."
+msgstr ""
+
+msgid "Disabled"
+msgstr ""
+
 msgid "DynaPoint"
 msgstr ""
 
 msgid "Dynamic Access Point Validator and Creator"
+msgstr ""
+
+msgid "Enabled"
 msgstr ""
 
 msgid "How often to check Internet connection in seconds"
@@ -34,10 +46,22 @@ msgstr ""
 msgid "Interval"
 msgstr ""
 
+msgid "Not used by DynaPoint"
+msgstr ""
+
+msgid "Offline"
+msgstr ""
+
 msgid "Offline threshold"
 msgstr ""
 
+msgid "Online"
+msgstr ""
+
 msgid "SSID"
+msgstr ""
+
+msgid "Status"
 msgstr ""
 
 msgid "Target host addresses"
@@ -52,25 +76,14 @@ msgstr ""
 msgid "Use curl"
 msgstr ""
 
-msgid ""
-"Use curl instead of wget for testing the connectivity. ATTENTION: You need "
-"to have curl installed before using this."
+msgid "Use curl instead of wget"
+msgstr ""
+
+msgid "Use curl instead of wget for testing the connectivity."
 msgstr ""
 
 msgid "Used interface"
 msgstr ""
 
 msgid "Which interface should curl use. (Use ifconfig to find out)"
-msgstr ""
-
-msgid "action"
-msgstr ""
-
-msgid "not used by dynapoint"
-msgstr ""
-
-msgid "offline"
-msgstr ""
-
-msgid "online"
 msgstr ""
