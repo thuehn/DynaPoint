@@ -37,7 +37,10 @@ define Package/luci-app-dynapoint/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/dynapoint
 	$(INSTALL_DATA) ./luasrc/model/cbi/dynapoint.lua $(1)/usr/lib/lua/luci/model/cbi/dynapoint/dynapoint.lua
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
-	$(INSTALL_DATA) ./luasrc/controller/dynapoint.lua $(1)/usr/lib/lua/luci/controller/dynapoint.lua	
+	$(INSTALL_DATA) ./luasrc/controller/dynapoint.lua $(1)/usr/lib/lua/luci/controller/dynapoint.lua
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/dynapoint
+	$(INSTALL_DATA) ./luasrc/view/dynapoint/cbi_checkbox.htm $(1)/usr/lib/lua/luci/view/dynapoint/cbi_checkbox.htm
+	$(INSTALL_DATA) ./luasrc/view/dynapoint/cbi_color.htm $(1)/usr/lib/lua/luci/view/dynapoint/cbi_color.htm
 endef
 
 $(eval $(call BuildPackage,luci-app-dynapoint))
