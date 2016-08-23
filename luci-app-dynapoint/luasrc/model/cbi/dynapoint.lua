@@ -1,5 +1,6 @@
 local uci = require "luci.model.uci".cursor()
 local a = require "luci.model.ipkg"
+local DISP = require "luci.dispatcher"
 
 local wlcursor = luci.model.uci.cursor_state()
 local wireless = wlcursor:get_all("wireless")
@@ -11,36 +12,10 @@ for k, v in pairs(wireless) do
   end
 end
 
-m = Map("dynapoint", "DynaPoint", translate("Dynamic Access Point Validator and Creator"))
+m = Map("dynapoint")
 m:chain("wireless")
 
-m1 = Map("wireless")
-
-aps = m1:section(TypedSection, "wifi-iface", translate("Access Points"))
-aps.addremove = false
-aps.anonymous = true
-aps.template  = "cbi/tblsection"
-
-status = aps:option(DummyValue, "disabled", translate("Status"))
-status.template = "dynapoint/cbi_color"
-
-function status.cfgvalue(self,section)
-  local val = m1:get(section, "disabled")
-  if val == "1" then return translate("Disabled") end
-  if (val == nil or val == "0") then return translate("Enabled") end
-  return val
-end
-
-ssid = aps:option(DummyValue, "ssid", translate("SSID"))
-
-action = aps:option(ListValue, "dynapoint_rule", translate("Activate if"))
-action.widget="select"
-action:value("internet",translate("Online"))
-action:value("!internet",translate("Offline"))
-action:value("",translate("Not used by DynaPoint"))
-action.default = ""
-
-s = m:section(NamedSection, "internet", "rule", translate("Internet"), translate("Internet connectivity"))
+s = m:section(NamedSection, "internet", "rule", translate("Internet"), translate("Check for Internet connectivity"))
 
 hosts = s:option(DynamicList, "hosts", translate("Target host addresses"), translate("Addresses for checking the availability"))
 hosts.datatype = "string"
@@ -71,9 +46,41 @@ if (a.installed("curl") == true) then
   curl_interface.placeholder = "eth0"
 else
 
-  use_curl = s:option(Flag, "use_curl", translate("Use curl instead of wget"), translate("Curl is currently not installed."))
+  use_curl = s:option(Flag, "use_curl", translate("Use curl instead of wget"), translate("Curl is currently not installed.")
+  .." Please install the package in the "
+  ..[[<a href="]] .. DISP.build_url("admin", "system", "packages")
+  .. "?display=available&query=curl"..[[">]]
+  .. "Software Section" .. [[</a>]]
+  .. "."
+  )
   use_curl.rmempty = false
   use_curl.template = "dynapoint/cbi_checkbox"
 end
 
-return m,m1
+m1 = Map("wireless", "DynaPoint", translate("Dynamic Access Point Validator and Creator"))
+
+aps = m1:section(TypedSection, "wifi-iface", translate("Access Points"))
+aps.addremove = false
+aps.anonymous = true
+aps.template  = "cbi/tblsection"
+
+status = aps:option(DummyValue, "disabled", translate("Status"))
+status.template = "dynapoint/cbi_color"
+
+function status.cfgvalue(self,section)
+  local val = m1:get(section, "disabled")
+  if val == "1" then return translate("Disabled") end
+  if (val == nil or val == "0") then return translate("Enabled") end
+  return val
+end
+
+ssid = aps:option(DummyValue, "ssid", translate("SSID"))
+
+action = aps:option(ListValue, "dynapoint_rule", translate("Activate if"))
+action.widget="select"
+action:value("internet",translate("Online"))
+action:value("!internet",translate("Offline"))
+action:value("",translate("Not used by DynaPoint"))
+action.default = ""
+
+return m1,m

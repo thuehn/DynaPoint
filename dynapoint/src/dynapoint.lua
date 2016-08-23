@@ -17,7 +17,6 @@ function getConfType(conf_file,type)
   return ifce
 end
 
-
 ubus = ubus.connect()
 if not ubus then
   error("Failed to connect to ubusd")
@@ -69,7 +68,7 @@ get_dynapoint_sections(getConfType("wireless","wifi-iface"))
 
 -- revert all non-persistent ssid uci-changes regarding sections affecting dynapoint
 for i = 1, #table_names_not_rule do
-uci_cursor:revert("wireless", table_names_not_rule[i], "ssid")
+  uci_cursor:revert("wireless", table_names_not_rule[i], "ssid")
 end
 
 
