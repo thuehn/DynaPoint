@@ -10,10 +10,6 @@ log.openlog("DynaPoint", "ndelay", "cons", "nowait");
 
 local uci_cursor = uci.cursor()
 
--- revert all non-persistent wireless related uci-changes
-uci_cursor:revert("wireless")
-
-
 -- get all config sections with the given type
 function getConfType(conf_file,type)
   local ifce={}
@@ -70,6 +66,12 @@ end
 --print(table.getn(hosts))
 
 get_dynapoint_sections(getConfType("wireless","wifi-iface"))
+
+-- revert all non-persistent ssid uci-changes regarding sections affecting dynapoint
+for i = 1, #table_names_not_rule do
+uci_cursor:revert("wireless", table_names_not_rule[i], "ssid")
+end
+
 
 local online = true
 if (tonumber(uci_cursor:get("wireless", table_names_rule[1], "disabled")) == 1) then
