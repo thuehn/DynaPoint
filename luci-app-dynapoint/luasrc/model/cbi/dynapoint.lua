@@ -15,20 +15,20 @@ end
 m = Map("dynapoint")
 m:chain("wireless")
 
-s = m:section(NamedSection, "internet", "rule", translate("Configuration"), translate("Check for Internet connectivity via HTTP download"))
+s = m:section(NamedSection, "internet", "rule", translate("Configuration"), translate("Check Internet connectivity via HTTP header download"))
 
-hosts = s:option(DynamicList, "hosts", translate("Target host addresses"), translate("Addresses for checking the availability"))
+hosts = s:option(DynamicList, "hosts", translate("List of host addresses"), translate("List of host addresses (url or IP) to track and request http headers from"))
 hosts.datatype = "string"
 
-interval = s:option(Value, "interval", translate("Interval"), translate("How often to check Internet connection in seconds"))
+interval = s:option(Value, "interval", translate("Test-run interval"), translate("Time interval in seconds to re-start a new test run"))
 interval.datatype = "uinteger"
 interval.default = "30"
 
-timeout = s:option(Value, "timeout", translate("Timeout"), translate("Timeout in seconds when trying to check Internet availability of host"))
+timeout = s:option(Value, "timeout", translate("Download-Timeout"), translate("Timeout in seconds after which a download attempt is counted as failure"))
 timeout.datatype = "uinteger"
 timeout.default = "5"
 
-offline_treshold = s:option(Value, "offline_threshold", translate("Offline threshold"), translate("After how many times of checking, the connection is considered offline"))
+offline_treshold = s:option(Value, "offline_threshold", translate("Switch_to_offline threshold"), translate("Failure counter after how many failed download attempts, the state is considered as offline"))
 offline_treshold.datatype = "uinteger"
 offline_treshold.default = "1"
 
@@ -56,14 +56,14 @@ else
   use_curl.template = "dynapoint/cbi_checkbox"
 end
 
-m1 = Map("wireless", "DynaPoint", translate("Dynamic Access Point Validator and Creator"))
+m1 = Map("wireless", "DynaPoint", translate("Dynamic Access Point Manager"))
 
-aps = m1:section(TypedSection, "wifi-iface", translate("Access Points"))
+aps = m1:section(TypedSection, "wifi-iface", translate("List of Wireless Virtual Interfaces (wVIF)"))
 aps.addremove = false
 aps.anonymous = true
 aps.template  = "cbi/tblsection"
 
-status = aps:option(DummyValue, "disabled", translate("Status"))
+status = aps:option(DummyValue, "disabled", translate("WiFi Status"))
 status.template = "dynapoint/cbi_color"
 
 function status.cfgvalue(self,section)
@@ -75,7 +75,7 @@ end
 
 ssid = aps:option(DummyValue, "ssid", translate("SSID"))
 
-action = aps:option(ListValue, "dynapoint_rule", translate("Activate if"))
+action = aps:option(ListValue, "dynapoint_rule", translate("Activate this wVIF if status is:"))
 action.widget="select"
 action:value("internet",translate("Online"))
 action:value("!internet",translate("Offline"))
