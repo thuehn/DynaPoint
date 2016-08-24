@@ -15,7 +15,7 @@ end
 m = Map("dynapoint")
 m:chain("wireless")
 
-s = m:section(NamedSection, "internet", "rule", translate("Internet"), translate("Check for Internet connectivity"))
+s = m:section(NamedSection, "internet", "rule", translate("Configuration"), translate("Check for Internet connectivity via HTTP download"))
 
 hosts = s:option(DynamicList, "hosts", translate("Target host addresses"), translate("Addresses for checking the availability"))
 hosts.datatype = "string"
@@ -45,7 +45,6 @@ if (a.installed("curl") == true) then
   curl_interface:depends("use_curl","1")
   curl_interface.placeholder = "eth0"
 else
-
   use_curl = s:option(Flag, "use_curl", translate("Use curl instead of wget"), translate("Curl is currently not installed.")
   .." Please install the package in the "
   ..[[<a href="]] .. DISP.build_url("admin", "system", "packages")
