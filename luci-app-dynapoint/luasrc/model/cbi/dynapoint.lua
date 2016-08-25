@@ -24,10 +24,6 @@ interval = s:option(Value, "interval", translate("Test-run interval"), translate
 interval.datatype = "uinteger"
 interval.default = "30"
 
-timeout = s:option(Value, "timeout", translate("Download-Timeout"), translate("Timeout in seconds after which a download attempt is counted as failure"))
-timeout.datatype = "uinteger"
-timeout.default = "5"
-
 offline_treshold = s:option(Value, "offline_threshold", translate("Switch_to_offline threshold"), translate("Failure counter after how many failed download attempts, the state is considered as offline"))
 offline_treshold.datatype = "uinteger"
 offline_treshold.default = "1"
@@ -73,7 +69,24 @@ function status.cfgvalue(self,section)
   return val
 end
 
+device = aps:option(DummyValue, "device", translate("Device"))
+function device.cfgvalue(self,section)
+  local dev = m1:get(section, "device")
+  local val = m1:get(dev, "hwmode")
+  if val == "11a" then return dev .. " (5 GHz)"  else
+  return dev .. " (2,4 GHz)"
+  end
+  return val
+end
+
+
+
+
+
+mode = aps:option(DummyValue, "mode", translate("Mode"))
+
 ssid = aps:option(DummyValue, "ssid", translate("SSID"))
+
 
 action = aps:option(ListValue, "dynapoint_rule", translate("Activate this wVIF if status is:"))
 action.widget="select"
