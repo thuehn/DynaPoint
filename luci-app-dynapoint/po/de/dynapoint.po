@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2016-08-14 15:51+0200\n"
+"PO-Revision-Date: 2016-08-31 15:51+0200\n"
 "Language-Team: German\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -9,29 +9,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Access Points"
-msgstr ""
-
-msgid "Activate if"
-msgstr "Aktivieren wenn"
-
-msgid "Addresses for checking the availability"
-msgstr "Adressen um die Internetverfügbarkeit zu überprüfen"
-
-msgid "After how many times of checking, the connection is considered offline"
-msgstr ""
-"Anzahl der Zyklen, nach denen die Verbindung als offline angesehen wird"
+msgid "Activate this wVIF if status is:"
+msgstr "Aktiviere dieses drahtlose Schnittstelle wenn:"
 
 msgid "Append hostname to ssid"
 msgstr "Anfügen des hostname zur SSID"
 
 msgid "Append the router's hostname to the SSID when connectivity check fails"
 msgstr ""
-"Fügt den hostname des routers zur SSID an, wenn der Verbindungsüberprüfung "
+"Fügt den hostname des routers zur SSID an, wenn die Verbindungsüberprüfung "
 "fehl schlägt"
+
+msgid "Check Internet connectivity via HTTP header download"
+msgstr "Testen der Internetverfügbarkeit via HTTP header download"
+
+msgid "Configuration"
+msgstr "Konfiguration"
 
 msgid "Curl is currently not installed."
 msgstr "Curl ist momentan nicht installiert."
+
+msgid "Device"
+msgstr "Gerät"
 
 msgid "Disabled"
 msgstr "Deaktiviert"
@@ -39,23 +38,30 @@ msgstr "Deaktiviert"
 msgid "DynaPoint"
 msgstr ""
 
-msgid "Dynamic Access Point Validator and Creator"
+msgid "Dynamic Access Point Manager"
 msgstr ""
 
 msgid "Enabled"
 msgstr "Aktiviert"
 
-msgid "How often to check Internet connection in seconds"
-msgstr "Wie oft die Internetverbindung überprüft wird (in Sekunden)"
-
-msgid "Internet"
+msgid ""
+"Failure counter after how many failed download attempts, the state is "
+"considered as offline"
 msgstr ""
+"Anzahl der fehlgeschlagenen Downloadversuchen, nach denen die Verbindung als offline angesehen wird"
 
-msgid "Internet connectivity"
-msgstr "Internetverbindung"
+msgid "List of Wireless Virtual Interfaces (wVIF)"
+msgstr "Liste der Drahtlosen virtuellen Schnittstellen"
 
-msgid "Interval"
-msgstr ""
+msgid "List of host addresses"
+msgstr "Liste der Zieladressen"
+
+msgid ""
+"List of host addresses (url or IP) to track and request http headers from"
+msgstr "Liste der Zieladressen (URL oder IP) für den HTTP header download"
+
+msgid "Mode"
+msgstr "Modus"
 
 msgid "Not used by DynaPoint"
 msgstr "Nicht von dynapoint benutzt"
@@ -63,26 +69,20 @@ msgstr "Nicht von dynapoint benutzt"
 msgid "Offline"
 msgstr "Offline"
 
-msgid "Offline threshold"
-msgstr "Offline-Schwelle"
-
 msgid "Online"
 msgstr "Online"
 
 msgid "SSID"
 msgstr ""
 
-msgid "Status"
-msgstr ""
+msgid "Switch_to_offline threshold"
+msgstr "Offline-Schwelle"
 
-msgid "Target host addresses"
-msgstr "Zieladressen"
+msgid "Test-run interval"
+msgstr "Testlaufintervall"
 
-msgid "Timeout"
-msgstr "Zeitüberschreitung"
-
-msgid "Timeout in seconds when trying to check Internet availability of host"
-msgstr "Zeitüberschreitung in Sekunden wenn versucht wird die Verfügbarkeit zu überprüfen"
+msgid "Time interval in seconds to re-start a new test run"
+msgstr "Zeitintervall in Sekunden für einen Testlauf"
 
 msgid "Use curl"
 msgstr "Curl benutzen"
@@ -91,8 +91,7 @@ msgid "Use curl instead of wget"
 msgstr "Curl anstatt wget benutzen"
 
 msgid "Use curl instead of wget for testing the connectivity."
-msgstr ""
-"Curl anstatt wget benutzen, um die Internetverbindung zu überprüfen."
+msgstr "Curl anstatt wget benutzen, um die Internetverbindung zu überprüfen."
 
 msgid "Used interface"
 msgstr "Benutztes interface"
@@ -102,5 +101,5 @@ msgstr ""
 "Welches Interface von curl benutzt werden soll. (ifconfig benutzen, um das "
 "herauszufinden"
 
-#~ msgid "action"
-#~ msgstr "Aktion"
+msgid "WiFi Status"
+msgstr ""

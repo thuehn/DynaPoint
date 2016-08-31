@@ -1,16 +1,7 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
-msgid "Access Points"
-msgstr ""
-
-msgid "Activate if"
-msgstr ""
-
-msgid "Addresses for checking the availability"
-msgstr ""
-
-msgid "After how many times of checking, the connection is considered offline"
+msgid "Activate this wVIF if status is:"
 msgstr ""
 
 msgid "Append hostname to ssid"
@@ -19,7 +10,16 @@ msgstr ""
 msgid "Append the router's hostname to the SSID when connectivity check fails"
 msgstr ""
 
+msgid "Check Internet connectivity via HTTP header download"
+msgstr ""
+
+msgid "Configuration"
+msgstr ""
+
 msgid "Curl is currently not installed."
+msgstr ""
+
+msgid "Device"
 msgstr ""
 
 msgid "Disabled"
@@ -28,22 +28,28 @@ msgstr ""
 msgid "DynaPoint"
 msgstr ""
 
-msgid "Dynamic Access Point Validator and Creator"
+msgid "Dynamic Access Point Manager"
 msgstr ""
 
 msgid "Enabled"
 msgstr ""
 
-msgid "How often to check Internet connection in seconds"
+msgid ""
+"Failure counter after how many failed download attempts, the state is "
+"considered as offline"
 msgstr ""
 
-msgid "Internet"
+msgid "List of Wireless Virtual Interfaces (wVIF)"
 msgstr ""
 
-msgid "Internet connectivity"
+msgid "List of host addresses"
 msgstr ""
 
-msgid "Interval"
+msgid ""
+"List of host addresses (url or IP) to track and request http headers from"
+msgstr ""
+
+msgid "Mode"
 msgstr ""
 
 msgid "Not used by DynaPoint"
@@ -52,25 +58,19 @@ msgstr ""
 msgid "Offline"
 msgstr ""
 
-msgid "Offline threshold"
-msgstr ""
-
 msgid "Online"
 msgstr ""
 
 msgid "SSID"
 msgstr ""
 
-msgid "Status"
+msgid "Switch_to_offline threshold"
 msgstr ""
 
-msgid "Target host addresses"
+msgid "Test-run interval"
 msgstr ""
 
-msgid "Timeout"
-msgstr ""
-
-msgid "Timeout in seconds when trying to check Internet availability of host"
+msgid "Time interval in seconds to re-start a new test run"
 msgstr ""
 
 msgid "Use curl"
@@ -86,4 +86,7 @@ msgid "Used interface"
 msgstr ""
 
 msgid "Which interface should curl use. (Use ifconfig to find out)"
+msgstr ""
+
+msgid "WiFi Status"
 msgstr ""
