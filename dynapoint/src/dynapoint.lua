@@ -73,8 +73,13 @@ end
 
 
 local online = true
-if (tonumber(uci_cursor:get("wireless", table_names_rule[1], "disabled")) == 1) then
-  online = false
+
+if (#table_names_rule > 0) then
+  if (tonumber(uci_cursor:get("wireless", table_names_rule[1], "disabled")) == 1) then
+    online = false
+  end
+else
+  log.syslog("info","Not properly configured. Please add <option dynapoint_rule 'internet'> to /etc/config/wireless")
 end
 
 local timer
