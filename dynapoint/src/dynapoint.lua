@@ -147,6 +147,7 @@ function check_internet_connection()
     -- online
     print("...seems to be online")
     offline_counter = 0
+    hostindex = 1
     if (online == false) then
       print("changed state to online")
       online = true
@@ -156,7 +157,9 @@ function check_internet_connection()
     --offline
     print("...seems to be offline")
     hostindex = hostindex + 1
-    if (hostindex > numhosts) then
+    if (hostindex <= numhosts) then
+      check_internet_connection()
+    else
       hostindex = 1
       -- and activate offline-mode
       print("all hosts offline")
