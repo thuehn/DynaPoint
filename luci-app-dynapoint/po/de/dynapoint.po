@@ -10,7 +10,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Activate this wVIF if status is:"
-msgstr "Aktiviere dieses drahtlose Schnittstelle wenn:"
+msgstr "Aktiviere diese drahtlose Schnittstelle wenn:"
 
 msgid "Append hostname to ssid"
 msgstr "Anfügen des hostname zur SSID"
@@ -48,7 +48,7 @@ msgid ""
 "Failure counter after how many failed download attempts, the state is "
 "considered as offline"
 msgstr ""
-"Anzahl der fehlgeschlagenen Downloadversuchen, nach denen die Verbindung als offline angesehen wird"
+"Anzahl der fehlgeschlagenen Downloadversuche, nach denen die Verbindung als offline angesehen wird"
 
 msgid "List of Wireless Virtual Interfaces (wVIF)"
 msgstr "Liste der Drahtlosen virtuellen Schnittstellen"
@@ -64,7 +64,7 @@ msgid "Mode"
 msgstr "Modus"
 
 msgid "Not used by DynaPoint"
-msgstr "Nicht von dynapoint benutzt"
+msgstr "Nicht von DynaPoint benutzt"
 
 msgid "Offline"
 msgstr "Offline"
