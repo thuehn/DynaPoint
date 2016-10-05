@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-dynapoint
-PKG_VERSION:=0.1
+PKG_VERSION:=1.0
 PKG_RELEASE:=1
 PKG_MAINTAINER:=Tobias Ilte <tobias.ilte@campus.tu-berlin.de>
 PKG_LICENSE:=GPL-3.0+
@@ -14,7 +14,7 @@ PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/luci-app-dynapoint
+define Package/$(PKG_NAME)
     SECTION:=LuCI
     CATEGORY:=LuCI
     SUBMENU:=3. Applications
@@ -24,14 +24,14 @@ define Package/luci-app-dynapoint
     PKGARCH:=all
 endef
 
-define Package/luci-app-dynapoint/description
+define Package/$(PKG_NAME)/description
 Makes access point ssids dependable on certain network conditions.
 endef
 
 define Build/Compile
 endef
 
-define Package/luci-app-dynapoint/install
+define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_BIN) ./root/etc/uci-defaults/40_luci-dynapoint $(1)/etc/uci-defaults/40_luci-dynapoint
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/dynapoint
@@ -43,4 +43,4 @@ define Package/luci-app-dynapoint/install
 	$(INSTALL_DATA) ./luasrc/view/dynapoint/cbi_color.htm $(1)/usr/lib/lua/luci/view/dynapoint/cbi_color.htm
 endef
 
-$(eval $(call BuildPackage,luci-app-dynapoint))
+$(eval $(call BuildPackage,$(PKG_NAME)))
