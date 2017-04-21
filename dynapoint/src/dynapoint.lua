@@ -52,8 +52,22 @@ local curl = tonumber(uci_cursor:get("dynapoint", "internet", "use_curl"))
 if (curl == 1) then
   curl_interface = uci_cursor:get("dynapoint", "internet", "curl_interface")
 end
+function get_system_sections(t)
+  for pos,val in pairs(t) do
+    if (type(val)=="table") then
+      get_system_sections(val);
+    elseif (type(val)=="string") then
+      if (pos == "hostname") then
+         localhostname = val
+      end
+    end
+  end
+end
 if (tonumber(uci_cursor:get("dynapoint", "internet", "add_hostname_to_ssid")) == 1 ) then
-  localhostname = uci_cursor:get("system", "system", "hostname")
+  get_system_sections(getConfType("system","system"))
+  if (not localhostname) then
+     error("Failed to obtain system hostname")
+  end
 end
 
 local table_names_rule = {}
@@ -72,15 +86,14 @@ function get_dynapoint_sections(t)
         elseif (val == "!internet") then
           table_names_not_rule[#table_names_not_rule+1] = t[".name"]
           if (localhostname) then
-            ssids_not_rule[#ssids_not_rule+1] = t[".ssid"]
-            ssids_with_hostname[#ssids_with_hostname+1] = t[".ssid"].."_"..localhostname
+            ssids_not_rule[#ssids_not_rule+1] = uci_cursor:get("wireless", t[".name"], "ssid")
+            ssids_with_hostname[#ssids_with_hostname+1] = uci_cursor:get("wireless", t[".name"], "ssid").."_"..localhostname
           end
         end
       end
     end
   end
 end
-
 
 --print(table.getn(hosts))
 
