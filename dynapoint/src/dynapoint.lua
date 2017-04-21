@@ -1,5 +1,25 @@
 #!/usr/bin/lua
 
+--[[
+
+Copyright (C) 2016 Tobias Ilte <tobias.ilte@campus.tu-berlin.de>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+--]]
+
+
 require "uci"
 require "ubus"
 require "uloop"
@@ -106,21 +126,16 @@ end
 function change_wireless_config(switch_to_offline)
   if (switch_to_offline == 1) then
     log.syslog("info","Switched to OFFLINE")
-
     for i = 1, #table_names_not_rule do
       uci_cursor:set("wireless",table_names_not_rule[i], "disabled", "0")
       if (localhostname) then
         uci_cursor:set("wireless", table_names_not_rule[i], "ssid", ssids_with_hostname[i])
-        log.syslog("info","Bring up new AP "..ssids_with_hostname[i])
-      else
-        log.syslog("info","Bring up new AP "..ssids_not_rule[i])
       end
+      log.syslog("info","Bring up new AP "..uci_cursor:get("wireless", table_names_not_rule[i], "ssid"))
     end
-
     for i = 1, #table_names_rule do
       uci_cursor:set("wireless",table_names_rule[i], "disabled", "1")
     end
-
   else
     log.syslog("info","Switched to ONLINE")
     for i = 1, #table_names_not_rule do
