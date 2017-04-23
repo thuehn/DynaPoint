@@ -56,3 +56,26 @@ config wifi-iface
 	option ssid 'freifunk_maintenance-mode'
 	option dynapoint_rule '!internet'
 ```
+
+Example configuration in /etc/config/dynapoint:
+
+```
+config rule 'internet'
+	list hosts 'http://www.example.com'
+	list hosts 'http://www.google.com'
+	option interval '60'
+	option timeout '5'
+	option offline_threshold '3'
+	option add_hostname_to_ssid '0'
+	option use_curl '0'
+	option curl_interface 'eth0'
+```
+Configuration options explained:
+
+ * hosts: Addresses for checking the availability
+ * interval: How often to check Internet connection in seconds
+ * timeout: Timeout in seconds when trying to check availability of host
+ * offline_trheshold: After how many times of checking, the connection is considered offline
+ * add_hostname_to_ssid: Append the router's hostname to the SSID when connectivity check fails
+ * use_curl: Use curl instead of wget for testing the connectivity
+
